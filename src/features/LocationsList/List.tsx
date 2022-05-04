@@ -29,10 +29,8 @@ export const StyledListItem = styled(ListItem)`
 `;
 
 const LocationsList = () => {
-  const location = JSON.parse(window.localStorage.getItem("selectedCountry") || "{}");
-
   const [data, setData] = useState<[] | CountriesList>([]);
-  const [country, setCountry] = useState<any>(location);
+  const [country, setCountry] = useState<any>(null);
   const { toggleSelectedCountry } = useContext(MapContext);
   const [, setLoading] = useState(false);
   const [, setError] = useState(null);
@@ -48,11 +46,17 @@ const LocationsList = () => {
     } finally {
         setLoading(false)
     }
+    const location = JSON.parse(window.localStorage.getItem("selectedCountry") || "{}");
+    return () => {
+      setCountry(location);
+    }
   },[])
 
   const handleCountry = useCallback((country: Country) => {
     const res = data.find((item) => item.alpha2 === country.alpha2);
-    setCountry(res);
+    if (res) {
+      setCountry(res);
+    }
   }, [data]);
 
   useEffect(() => {

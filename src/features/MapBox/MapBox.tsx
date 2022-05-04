@@ -15,12 +15,9 @@ export const StyledMap = styled.div`
 
 const MapBox = () => {
   const { selectedCountry } = useContext(MapContext);
-
+  
   const mapContainer = useRef(null);
   let map: any = useRef(null);
-  const [lng, ] = useState(-70.9);
-  const [lat, ] = useState(42.35);
-  const [zoom, ] = useState(9);
 
   const marker = new mapboxgl.Marker();
   const popup = new mapboxgl.Popup({ closeOnClick: false });
@@ -30,8 +27,8 @@ const MapBox = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current as any,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lng, lat],
-      zoom: zoom
+      center: [1, 1],
+      zoom: 9
     });
   });
 
@@ -43,7 +40,7 @@ const MapBox = () => {
       map.current.flyTo({center: [longitude, latitude], zoom: 6});
 
       marker.setLngLat([longitude, latitude]).addTo(map.current);
-      popup.setLngLat([longitude, latitude + 0.5]).setHTML('<p>Weather info</p>').addTo(map.current);
+      popup.setLngLat([longitude, latitude + 0.3]).setHTML('<p>Weather info</p>').addTo(map.current);
     }
   },[selectedCountry])
 
